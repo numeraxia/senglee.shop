@@ -10,7 +10,6 @@ import {
   type ReactNode,
 } from "react";
 import type { CartItem } from "@/lib/types";
-import { MIN_ORDER } from "@/lib/data";
 
 interface CartContextValue {
   cart: CartItem[];
@@ -30,7 +29,13 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue | null>(null);
 const STORAGE_KEY = "bulkmart-cart";
 
-export function CartProvider({ children }: { children: ReactNode }) {
+export function CartProvider({
+  children,
+  minOrderAmount = Number(process.env.NEXT_PUBLIC_MIN_ORDER_AMOUNT ?? process.env.MIN_ORDER_AMOUNT ?? 500),
+}: {
+  children: ReactNode;
+  minOrderAmount?: number;
+}) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
@@ -77,8 +82,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const total = useMemo(() => cart.reduce((sum, i) => sum + i.price * i.qty, 0), [cart]);
   const itemCount = useMemo(() => cart.reduce((sum, i) => sum + i.qty, 0), [cart]);
-  const deliveryPercent = Math.min(100, Math.round((total / MIN_ORDER) * 100));
-  const meetsMinimum = total >= MIN_ORDER;
+  const deliveryPercent = Math.min(100, Math.round((total / minOrderAmount) * 100));
+  const meetsMinimum = total >= minOrderAmount;
 
   const value = useMemo(
     () => ({
@@ -106,6 +111,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       deliveryPercent,
       meetsMinimum,
       isOpen,
+      minOrderAmount,
     ]
   );
 

@@ -4,15 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { NAV_CATEGORIES } from "@/lib/data";
 import { useCart } from "@/lib/cart-context";
+import { useSiteSettings } from "@/lib/site-settings-context";
+import { StoreLogo } from "@/components/StoreLogo";
 
-interface HeaderProps {
-  storeName?: string;
-  brandTag?: string;
-}
-
-export function Header({ storeName = "BulkMart", brandTag = "Wholesale" }: HeaderProps) {
+export function Header() {
   const [navOpen, setNavOpen] = useState(false);
   const { itemCount, openCart } = useCart();
+  const settings = useSiteSettings();
 
   return (
     <header className="header">
@@ -26,10 +24,11 @@ export function Header({ storeName = "BulkMart", brandTag = "Wholesale" }: Heade
           <span />
           <span />
         </button>
-        <Link href="/" className="logo">
-          <span className="logo-text">{storeName}</span>
-          <span className="logo-tag">{brandTag}</span>
-        </Link>
+        <StoreLogo
+          storeName={settings.store_name}
+          brandTag={settings.brand_tag}
+          logoUrl={settings.logo_url}
+        />
         <nav className={`nav ${navOpen ? "open" : ""}`}>
           <div className="nav-item dropdown">
             <button className="dropdown-trigger" type="button">

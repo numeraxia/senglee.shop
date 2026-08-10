@@ -1,9 +1,11 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import type { SiteSettings } from "@/lib/types";
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   store_name: "BulkMart",
   brand_tag: "Wholesale",
+  logo_url: null,
   tagline: "Wholesale Retail | Order Bulk, Save More",
   hero_title: "Get great value by ordering bulk in cartons!",
   hero_subtitle:
@@ -20,6 +22,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
 };
 
 export async function getSiteSettings(): Promise<SiteSettings> {
+  noStore();
   const supabase = await createClient();
   if (!supabase) return DEFAULT_SITE_SETTINGS;
 
@@ -29,6 +32,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   return {
     store_name: data.store_name,
     brand_tag: data.brand_tag ?? "Wholesale",
+    logo_url: data.logo_url,
     tagline: data.tagline,
     hero_title: data.hero_title,
     hero_subtitle: data.hero_subtitle,

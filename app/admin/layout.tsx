@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAdminUser } from "@/lib/admin/auth";
+import { getSiteSettings } from "@/lib/site-settings";
 import { AdminSignOut } from "@/components/admin/AdminSignOut";
 
 const NAV_ITEMS = [
@@ -9,13 +10,13 @@ const NAV_ITEMS = [
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const user = await getAdminUser();
+  const [user, settings] = await Promise.all([getAdminUser(), getSiteSettings()]);
 
   return (
     <div className="admin-shell">
       <aside className="admin-sidebar">
         <div className="admin-brand">
-          <Link href="/admin">BulkMart Admin</Link>
+          <Link href="/admin">{settings.store_name} Admin</Link>
           <span>Content management</span>
         </div>
         {user && (

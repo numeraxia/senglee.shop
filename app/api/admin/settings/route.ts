@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getAdminUser } from "@/lib/admin/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getSiteSettings } from "@/lib/site-settings";
@@ -8,6 +9,7 @@ function mapSettings(data: Record<string, unknown>): SiteSettings {
   return {
     store_name: String(data.store_name),
     brand_tag: String(data.brand_tag ?? "Wholesale"),
+    logo_url: (data.logo_url as string | null) ?? null,
     tagline: String(data.tagline),
     hero_title: String(data.hero_title),
     hero_subtitle: String(data.hero_subtitle),
@@ -49,6 +51,7 @@ export async function PATCH(request: Request) {
   const payload = {
     store_name: body.store_name?.trim(),
     brand_tag: body.brand_tag?.trim(),
+    logo_url: body.logo_url?.trim() || null,
     tagline: body.tagline?.trim(),
     hero_title: body.hero_title?.trim(),
     hero_subtitle: body.hero_subtitle?.trim(),
@@ -87,6 +90,9 @@ export async function PATCH(request: Request) {
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  revalidatePath("/", "layout");
+  revalidatePath("/admin/settings");
 
   return NextResponse.json(mapSettings(data));
 }

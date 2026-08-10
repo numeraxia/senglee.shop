@@ -108,6 +108,19 @@ body {
     color: var(--accent);
 }
 
+.logo-image {
+    height: auto;
+    width: auto;
+    max-height: 40px;
+    max-width: 160px;
+    object-fit: contain;
+}
+
+.logo-footer .logo-image {
+    max-height: 48px;
+    max-width: 180px;
+}
+
 .nav {
     display: flex;
     align-items: center;
@@ -1394,6 +1407,89 @@ body {
     max-width: 720px;
 }
 
+.admin-settings-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+    gap: 32px;
+    align-items: start;
+}
+
+.admin-clear-logo {
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.875rem;
+    padding: 0;
+    text-align: left;
+    text-decoration: underline;
+}
+
+.store-preview {
+    position: sticky;
+    top: 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-card);
+    box-shadow: var(--shadow);
+}
+
+.store-preview-label {
+    padding: 12px 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    background: #f8fafc;
+}
+
+.store-preview-topbar {
+    background: var(--primary);
+    color: white;
+    padding: 8px 16px;
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+.store-preview-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.store-preview-logo {
+    display: flex;
+    flex-direction: column;
+}
+
+.store-preview-hero {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.store-preview-hero strong {
+    display: block;
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+}
+
+.store-preview-hero p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.store-preview-footer {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
 .admin-form-section {
     margin: 32px 0 16px;
     font-family: var(--font-display);
@@ -1462,5 +1558,13 @@ body {
     .admin-stats,
     .admin-card-grid {
         grid-template-columns: 1fr;
+    }
+
+    .admin-settings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .store-preview {
+        position: static;
     }
 }

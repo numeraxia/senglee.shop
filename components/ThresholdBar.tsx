@@ -1,7 +1,6 @@
 "use client";
 
 import { useCart } from "@/lib/cart-context";
-import { MIN_ORDER, formatPrice } from "@/lib/data";
 
 export function ThresholdBar() {
   const { deliveryPercent } = useCart();
@@ -23,4 +22,3 @@ export function ThresholdBar() {
   );
 }
 
-export { MIN_ORDER, formatPrice };

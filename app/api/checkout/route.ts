@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getStripe } from "@/lib/stripe";
+import { getSiteSettings } from "@/lib/site-settings";
 import type { CartItem } from "@/lib/types";
 
 interface CheckoutBody {
@@ -15,8 +16,14 @@ export async function POST(request: Request) {
     const body: CheckoutBody = await request.json();
     const { items, total, delivery_address, phone } = body;
 
-    if (!items?.length || total < 500) {
-      return NextResponse.json({ error: "Minimum order is RM500" }, { status: 400 });
+    const settings = await getSiteSettings();
+    const minOrder = settings.min_order_amount;
+
+    if (!items?.length || total < minOrder) {
+      return NextResponse.json(
+        { error: `Minimum order is RM${minOrder.toFixed(2)}` },
+        { status: 400 }
+      );
     }
 
     const supabase = await createClient();

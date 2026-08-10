@@ -62,7 +62,7 @@ export default async function HomePage() {
         <h2>How it works</h2>
         <p className="how-intro">
           Open to all customers in Central, Southern, Northern Region and East Coast — orders from
-          RM500 to checkout.
+          RM{settings.min_order_amount} to checkout.
         </p>
         <div className="steps-grid">
           <div className="step-card">

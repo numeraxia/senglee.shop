@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { useCart } from "@/lib/cart-context";
-import { MIN_ORDER, formatPrice } from "@/lib/data";
+import { useSiteSettings } from "@/lib/site-settings-context";
+import { formatPrice } from "@/lib/data";
 
 export function CartDrawer() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export function CartDrawer() {
     total,
     meetsMinimum,
   } = useCart();
+  const { min_order_amount: minOrder } = useSiteSettings();
 
   const handleCheckout = () => {
     if (!meetsMinimum) return;
@@ -70,7 +72,7 @@ export function CartDrawer() {
             <span>Total:</span>
             <span>{formatPrice(total)}</span>
           </div>
-          <p className="cart-minimum">Minimum order: {formatPrice(MIN_ORDER)}</p>
+          <p className="cart-minimum">Minimum order: {formatPrice(minOrder)}</p>
           <button
             type="button"
             className={`checkout-btn ${meetsMinimum ? "active" : ""}`}

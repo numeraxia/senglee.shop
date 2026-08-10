@@ -52,6 +52,7 @@ const migrationFiles = [
   "supabase/migrations/20260810100000_initial_schema.sql",
   "supabase/migrations/20260810220000_admin.sql",
   "supabase/migrations/20260811003000_footer_settings.sql",
+  "supabase/migrations/20260811010000_logo_and_storage.sql",
 ];
 
 async function connect() {

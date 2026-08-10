@@ -14,9 +14,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "BulkMart - Wholesale Retail | Order Bulk, Save More",
-  description:
-    "Order bulk today with next-working day delivery across Malaysia. Minimum order RM500.",
+  title: "Wholesale Store",
+  description: "Order bulk today with next-working day delivery across Malaysia.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -41,6 +41,7 @@ export interface Order {
 export interface SiteSettings {
   store_name: string;
   brand_tag: string;
+  logo_url: string | null;
   tagline: string;
   hero_title: string;
   hero_subtitle: string;

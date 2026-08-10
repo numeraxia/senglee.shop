@@ -4,11 +4,13 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
-import { MIN_ORDER, formatPrice } from "@/lib/data";
+import { useSiteSettings } from "@/lib/site-settings-context";
+import { formatPrice } from "@/lib/data";
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { cart, total, meetsMinimum, clearCart } = useCart();
+  const { min_order_amount: minOrder } = useSiteSettings();
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,7 +21,7 @@ export default function CheckoutPage() {
       <div className="page-container">
         <div className="empty-state">
           <h2>Your cart is empty</h2>
-          <p>Add products to reach the RM500 minimum before checkout.</p>
+          <p>Add products to reach the {formatPrice(minOrder)} minimum before checkout.</p>
           <Link href="/products" className="badge" style={{ display: "inline-block", marginTop: 16 }}>
             Browse products
           </Link>
@@ -98,7 +100,7 @@ export default function CheckoutPage() {
           </label>
           {!meetsMinimum && (
             <div className="auth-error">
-              Minimum order is {formatPrice(MIN_ORDER)}. Add RM {(MIN_ORDER - total).toFixed(2)} more.
+              Minimum order is {formatPrice(minOrder)}. Add RM {(minOrder - total).toFixed(2)} more.
             </div>
           )}
           <button type="submit" disabled={!meetsMinimum || loading}>

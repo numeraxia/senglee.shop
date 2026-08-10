@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getSiteSettings } from "@/lib/site-settings";
+import { StoreLogo } from "@/components/StoreLogo";
 
 export async function Footer() {
   const settings = await getSiteSettings();
@@ -8,8 +9,12 @@ export async function Footer() {
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-brand">
-          <span className="logo-text">{settings.store_name}</span>
-          <span className="logo-tag">{settings.brand_tag}</span>
+          <StoreLogo
+            storeName={settings.store_name}
+            brandTag={settings.brand_tag}
+            logoUrl={settings.logo_url}
+            variant="footer"
+          />
         </div>
         <div className="footer-info">
           {settings.contact_phone && <p>📞 {settings.contact_phone}</p>}
