@@ -40,11 +40,17 @@ export interface Order {
 
 export interface SiteSettings {
   store_name: string;
+  brand_tag: string;
   tagline: string;
   hero_title: string;
   hero_subtitle: string;
   top_bar_message: string;
   contact_email: string | null;
   contact_phone: string | null;
+  business_hours: string | null;
+  company_name: string | null;
+  footer_note: string | null;
+  terms_url: string | null;
+  privacy_url: string | null;
   min_order_amount: number;
 }

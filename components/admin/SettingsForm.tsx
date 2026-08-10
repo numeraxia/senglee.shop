@@ -60,6 +60,16 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
       </label>
 
       <label>
+        Brand tag (header/footer badge)
+        <input
+          type="text"
+          required
+          value={settings.brand_tag}
+          onChange={(e) => update("brand_tag", e.target.value)}
+        />
+      </label>
+
+      <label>
         Tagline / meta description
         <input
           type="text"
@@ -126,6 +136,58 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
           type="text"
           value={settings.contact_phone ?? ""}
           onChange={(e) => update("contact_phone", e.target.value)}
+        />
+      </label>
+
+      <h2 className="admin-form-section">Footer</h2>
+
+      <label>
+        Business hours
+        <input
+          type="text"
+          placeholder="e.g. 09:00 AM - 05:00 PM"
+          value={settings.business_hours ?? ""}
+          onChange={(e) => update("business_hours", e.target.value)}
+        />
+      </label>
+
+      <label>
+        Company name (copyright)
+        <input
+          type="text"
+          placeholder="e.g. Seng Lee Shop Sdn Bhd"
+          value={settings.company_name ?? ""}
+          onChange={(e) => update("company_name", e.target.value)}
+        />
+      </label>
+
+      <label>
+        Footer note
+        <input
+          type="text"
+          placeholder="e.g. Invoice will be available when the order is completed."
+          value={settings.footer_note ?? ""}
+          onChange={(e) => update("footer_note", e.target.value)}
+        />
+      </label>
+
+      <label>
+        Terms of service URL
+        <input
+          type="url"
+          placeholder="https://..."
+          value={settings.terms_url ?? ""}
+          onChange={(e) => update("terms_url", e.target.value)}
+        />
+      </label>
+
+      <label>
+        Privacy policy URL
+        <input
+          type="url"
+          placeholder="https://..."
+          value={settings.privacy_url ?? ""}
+          onChange={(e) => update("privacy_url", e.target.value)}
         />
       </label>
 

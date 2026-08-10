@@ -1394,6 +1394,12 @@ body {
     max-width: 720px;
 }
 
+.admin-form-section {
+    margin: 32px 0 16px;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+}
+
 .admin-form textarea {
     width: 100%;
     padding: 12px 14px;

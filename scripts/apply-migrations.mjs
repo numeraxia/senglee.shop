@@ -25,22 +25,33 @@ const projectRef = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "")
   .replace("https://", "")
   .replace(".supabase.co", "");
 
-const password = process.env.SUPABASE_DB_PASSWORD;
+const rawPassword = process.env.SUPABASE_DB_PASSWORD;
 
-if (!projectRef || !password) {
+if (!projectRef || !rawPassword) {
   console.error("Set SUPABASE_DB_PASSWORD in .env.local (Supabase → Project Settings → Database).");
   process.exit(1);
 }
 
+let password = rawPassword;
+try {
+  password = decodeURIComponent(rawPassword);
+} catch {
+  password = rawPassword;
+}
+
+const encodedPassword = encodeURIComponent(password);
+
 const candidates = [
   process.env.SUPABASE_DB_URL,
-  `postgresql://postgres.${projectRef}:${encodeURIComponent(password)}@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres`,
-  `postgresql://postgres:${encodeURIComponent(password)}@db.${projectRef}.supabase.co:5432/postgres`,
+  `postgresql://postgres.${projectRef}:${encodedPassword}@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres`,
+  `postgresql://postgres.${projectRef}:${encodedPassword}@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres`,
+  `postgresql://postgres:${encodedPassword}@db.${projectRef}.supabase.co:5432/postgres`,
 ].filter(Boolean);
 
 const migrationFiles = [
   "supabase/migrations/20260810100000_initial_schema.sql",
   "supabase/migrations/20260810220000_admin.sql",
+  "supabase/migrations/20260811003000_footer_settings.sql",
 ];
 
 async function connect() {
@@ -54,7 +65,7 @@ async function connect() {
 
     try {
       await client.connect();
-      console.log(`Connected via ${connectionString.replace(password, "***")}`);
+      console.log(`Connected via ${connectionString.replace(encodedPassword, "***").replace(password, "***")}`);
       return client;
     } catch (error) {
       lastError = error;
@@ -78,6 +89,10 @@ async function main() {
     "select (select count(*)::int from products) as products, (select count(*)::int from categories) as categories, (select count(*)::int from site_settings) as settings"
   );
   console.log("Counts:", rows[0]);
+
+  await client.query("NOTIFY pgrst, 'reload schema'");
+  console.log("PostgREST schema cache reload sent");
+
   await client.end();
 }
 

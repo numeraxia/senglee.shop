@@ -5,7 +5,12 @@ import { useState } from "react";
 import { NAV_CATEGORIES } from "@/lib/data";
 import { useCart } from "@/lib/cart-context";
 
-export function Header() {
+interface HeaderProps {
+  storeName?: string;
+  brandTag?: string;
+}
+
+export function Header({ storeName = "BulkMart", brandTag = "Wholesale" }: HeaderProps) {
   const [navOpen, setNavOpen] = useState(false);
   const { itemCount, openCart } = useCart();
 
@@ -22,8 +27,8 @@ export function Header() {
           <span />
         </button>
         <Link href="/" className="logo">
-          <span className="logo-text">BulkMart</span>
-          <span className="logo-tag">Wholesale</span>
+          <span className="logo-text">{storeName}</span>
+          <span className="logo-tag">{brandTag}</span>
         </Link>
         <nav className={`nav ${navOpen ? "open" : ""}`}>
           <div className="nav-item dropdown">

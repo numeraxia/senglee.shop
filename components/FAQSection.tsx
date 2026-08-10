@@ -29,27 +29,3 @@ export function FAQSection() {
     </section>
   );
 }
-
-export function Footer() {
-  return (
-    <footer className="footer">
-      <div className="footer-inner">
-        <div className="footer-brand">
-          <span className="logo-text">BulkMart</span>
-          <span className="logo-tag">Wholesale</span>
-        </div>
-        <div className="footer-info">
-          <p>📞 011-16000099</p>
-          <p>✉️ support@bulkmart.my</p>
-          <p>🕐 09:00 AM - 05:00 PM</p>
-        </div>
-        <p className="footer-note">Invoice will be available when the order is completed.</p>
-        <div className="footer-links">
-          <a href="#">Terms of service</a>
-          <a href="#">Privacy policy</a>
-        </div>
-        <p className="footer-copy">© BulkMart Sdn Bhd. All rights reserved.</p>
-      </div>
-    </footer>
-  );
-}
