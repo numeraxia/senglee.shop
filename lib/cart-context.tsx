@@ -31,7 +31,7 @@ const STORAGE_KEY = "bulkmart-cart";
 
 export function CartProvider({
   children,
-  minOrderAmount = Number(process.env.NEXT_PUBLIC_MIN_ORDER_AMOUNT ?? process.env.MIN_ORDER_AMOUNT ?? 500),
+  minOrderAmount = 500,
 }: {
   children: ReactNode;
   minOrderAmount?: number;

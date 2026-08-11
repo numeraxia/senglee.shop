@@ -69,7 +69,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
     }
 
     setSettings((prev) => ({ ...prev, logo_url: data.logo_url }));
-    setMessage("Logo uploaded. Save settings to confirm other changes.");
+    setMessage("Logo uploaded and saved.");
     router.refresh();
   };
 
@@ -205,20 +205,10 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
           />
         </label>
 
-        <h2 className="admin-form-section">Footer</h2>
+        <h2 className="admin-form-section">Company details</h2>
 
         <label>
-          Business hours
-          <input
-            type="text"
-            placeholder="e.g. 09:00 AM - 05:00 PM"
-            value={settings.business_hours ?? ""}
-            onChange={(e) => update("business_hours", e.target.value)}
-          />
-        </label>
-
-        <label>
-          Company name (copyright)
+          Legal company name
           <input
             type="text"
             placeholder="e.g. Seng Lee Shop Sdn Bhd"
@@ -226,6 +216,38 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
             onChange={(e) => update("company_name", e.target.value)}
           />
         </label>
+
+        <label>
+          Company registration number
+          <input
+            type="text"
+            placeholder="e.g. 1234567-A (SSM / ROC)"
+            value={settings.company_registration_number ?? ""}
+            onChange={(e) => update("company_registration_number", e.target.value)}
+          />
+        </label>
+
+        <label>
+          Company address
+          <textarea
+            rows={3}
+            placeholder="Full registered business address"
+            value={settings.company_address ?? ""}
+            onChange={(e) => update("company_address", e.target.value)}
+          />
+        </label>
+
+        <label>
+          Operating hours
+          <textarea
+            rows={3}
+            placeholder={"e.g.\nMon–Fri: 9:00 AM – 5:00 PM\nSat: 9:00 AM – 1:00 PM\nSun & public holidays: Closed"}
+            value={settings.business_hours ?? ""}
+            onChange={(e) => update("business_hours", e.target.value)}
+          />
+        </label>
+
+        <h2 className="admin-form-section">Footer</h2>
 
         <label>
           Footer note

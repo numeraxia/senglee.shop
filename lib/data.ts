@@ -1,7 +1,5 @@
 import type { Category, Product } from "./types";
 
-export const MIN_ORDER = Number(process.env.MIN_ORDER_AMOUNT ?? 500);
-
 export const CATEGORIES: Category[] = [
   { id: "1", name: "Promotion", slug: "promotion", icon: "🔥", sort_order: 1 },
   { id: "2", name: "Bread", slug: "bread", icon: "🍞", sort_order: 2 },

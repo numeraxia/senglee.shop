@@ -39,14 +39,16 @@ cp .env.example .env.local
 | `STRIPE_SECRET_KEY` | Stripe secret key |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
 | `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret |
-| `NEXT_PUBLIC_APP_URL` | Public app URL (e.g. `https://senglee-shop.onrender.com`) |
-| `MIN_ORDER_AMOUNT` | Minimum checkout amount (default: 500) |
+| `NEXT_PUBLIC_APP_URL` | Public app URL (e.g. `https://senglee-shop.vercel.app`) |
+| `MIN_ORDER_AMOUNT` | Fallback minimum checkout when DB is unavailable (default: 500) |
+| `ADMIN_EMAILS` | Comma-separated emails allowed to access `/admin` |
+| `SUPABASE_DB_PASSWORD` | Database password — migration scripts only, not synced to Vercel |
 
 ## Supabase Setup
 
 1. Create a Supabase project at [supabase.com](https://supabase.com)
-2. Run the migration in `supabase/migrations/20260810100000_initial_schema.sql` via the SQL editor or Supabase CLI
-3. Add your Supabase URL and keys to `.env.local`
+2. Add your Supabase URL and keys to `.env.local`
+3. Run all migrations: `npm run db:setup`
 4. Enable Email auth in Supabase Authentication settings
 
 ## Stripe Webhooks
@@ -63,20 +65,32 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 
 Copy the `whsec_...` signing secret into `.env.local` as `STRIPE_WEBHOOK_SECRET`, then restart the dev server.
 
-### Production (Render)
+### Production (Vercel)
 
-1. In [Stripe Dashboard → Webhooks](https://dashboard.stripe.com/test/webhooks), add endpoint: `https://senglee-shop.onrender.com/api/webhooks/stripe`
+1. In [Stripe Dashboard → Webhooks](https://dashboard.stripe.com/webhooks), add endpoint: `https://senglee-shop.vercel.app/api/webhooks/stripe`
 2. Enable events: `checkout.session.completed`, `checkout.session.expired`
-3. Reveal the **Signing secret** and set it as `STRIPE_WEBHOOK_SECRET` on Render
+3. Reveal the **Signing secret** and set it as `STRIPE_WEBHOOK_SECRET` on Vercel
 
-## Deploy to Render
+## Deploy to Vercel
 
-1. Push this repo to GitHub
-2. Connect to Render and use the included `render.yaml` blueprint, or create a Web Service manually:
-   - **Build command:** `npm install && npm run build`
-   - **Start command:** `npm start`
-3. Add all environment variables from `.env.example`
-4. Set `NEXT_PUBLIC_APP_URL` to your Render service URL
+The store is hosted on Vercel at **https://senglee-shop.vercel.app**.
+
+1. Push this repo to GitHub (`numeraxia/senglee.shop`) — Vercel auto-deploys from `main`
+2. Environment variables are managed in the [Vercel project settings](https://vercel.com/numeraxias-projects/senglee-shop/settings/environment-variables)
+3. To sync local env vars to Vercel after changes: `npm run vercel:env`
+4. Manual production deploy: `node node_modules/vercel/dist/index.js deploy --prod --yes`
+5. Optional: add custom domain `senglee.shop` in Vercel → Domains
+6. After confirming Vercel is live, retire the old Render service: `npm run render:retire`
+
+## NPM Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start local dev server |
+| `npm run db:setup` | Apply all Supabase migrations |
+| `npm run db:migrate:company` | Apply company details migration only |
+| `npm run vercel:env` | Sync `.env.local` → Vercel env vars |
+| `npm run render:retire` | Delete the old Render web service |
 
 ## Project Structure
 
@@ -86,7 +100,6 @@ components/           # React UI components
 lib/                  # Data, cart context, Supabase clients
 supabase/migrations/  # Database schema + seed data
 legacy/               # Original static HTML prototype
-render.yaml           # Render deployment blueprint
 ```
 
 ## Minimum Order

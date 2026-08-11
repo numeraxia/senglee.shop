@@ -13,7 +13,7 @@ export default async function AdminSettingsPage() {
     <div className="admin-page">
       <div className="admin-page-header">
         <h1>Site Settings</h1>
-        <p>Update store name, logo, homepage content, contact details, and footer — changes appear on the storefront immediately after saving.</p>
+        <p>Update store name, logo, company details, contact info, and footer — changes appear on the storefront immediately after saving.</p>
       </div>
       <SettingsForm initialSettings={settings} />
     </div>

@@ -48,13 +48,10 @@ const candidates = [
   `postgresql://postgres:${encodedPassword}@db.${projectRef}.supabase.co:5432/postgres`,
 ].filter(Boolean);
 
-const migrationFiles = [
-  "supabase/migrations/20260810100000_initial_schema.sql",
-  "supabase/migrations/20260810220000_admin.sql",
-  "supabase/migrations/20260811003000_footer_settings.sql",
-  "supabase/migrations/20260811010000_logo_and_storage.sql",
-  "supabase/migrations/20260811100000_company_details.sql",
-];
+const sql = fs.readFileSync(
+  path.join(process.cwd(), "supabase/migrations/20260811100000_company_details.sql"),
+  "utf8"
+);
 
 async function connect() {
   let lastError;
@@ -79,23 +76,10 @@ async function connect() {
 
 async function main() {
   const client = await connect();
-
-  for (const file of migrationFiles) {
-    const sql = fs.readFileSync(path.join(process.cwd(), file), "utf8");
-    console.log(`Applying ${file}...`);
-    await client.query(sql);
-    console.log(`Applied ${file}`);
-  }
-
-  const { rows } = await client.query(
-    "select (select count(*)::int from products) as products, (select count(*)::int from categories) as categories, (select count(*)::int from site_settings) as settings"
-  );
-  console.log("Counts:", rows[0]);
-
+  await client.query(sql);
   await client.query("NOTIFY pgrst, 'reload schema'");
-  console.log("PostgREST schema cache reload sent");
-
   await client.end();
+  console.log("Company details migration applied");
 }
 
 main().catch((err) => {

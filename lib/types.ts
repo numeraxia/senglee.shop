@@ -50,6 +50,8 @@ export interface SiteSettings {
   contact_phone: string | null;
   business_hours: string | null;
   company_name: string | null;
+  company_address: string | null;
+  company_registration_number: string | null;
   footer_note: string | null;
   terms_url: string | null;
   privacy_url: string | null;

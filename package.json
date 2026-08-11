@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:setup": "node scripts/apply-migrations.mjs"
+    "db:setup": "node scripts/apply-migrations.mjs",
+    "db:migrate:company": "node scripts/apply-company-migration.mjs",
+    "vercel:env": "node scripts/sync-vercel-env.mjs",
+    "render:retire": "node scripts/retire-render-service.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
@@ -23,6 +26,7 @@
     "@types/node": "^22.15.21",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vercel": "^58.9.1"
   }
 }

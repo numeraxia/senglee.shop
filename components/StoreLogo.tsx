@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { LogoImage } from "@/components/LogoImage";
 
 interface StoreLogoProps {
   storeName: string;
@@ -17,7 +17,7 @@ export function StoreLogo({
   return (
     <Link href="/" className={`logo ${variant === "footer" ? "logo-footer" : ""}`}>
       {logoUrl ? (
-        <Image
+        <LogoImage
           src={logoUrl}
           alt={storeName}
           width={variant === "footer" ? 160 : 140}

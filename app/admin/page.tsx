@@ -48,7 +48,7 @@ export default async function AdminDashboardPage() {
       <div className="admin-card-grid">
         <Link href="/admin/settings" className="admin-action-card">
           <h2>Site Settings</h2>
-          <p>Edit store name, hero text, top bar message, and contact details.</p>
+          <p>Edit store name, logo, company details, contact info, and footer.</p>
         </Link>
         <Link href="/admin/products" className="admin-action-card">
           <h2>Bulk Product Upload</h2>

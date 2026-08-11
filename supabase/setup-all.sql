@@ -123,3 +123,25 @@ create policy "Site settings are viewable by everyone"
 
 insert into public.site_settings (id) values (1)
 on conflict (id) do nothing;
+
+-- === footer + logo fields ===
+
+alter table public.site_settings
+  add column if not exists brand_tag text not null default 'Wholesale',
+  add column if not exists business_hours text,
+  add column if not exists company_name text,
+  add column if not exists footer_note text,
+  add column if not exists terms_url text,
+  add column if not exists privacy_url text,
+  add column if not exists logo_url text,
+  add column if not exists company_address text,
+  add column if not exists company_registration_number text;
+
+insert into storage.buckets (id, name, public)
+values ('store-assets', 'store-assets', true)
+on conflict (id) do update set public = true;
+
+drop policy if exists "Public read store assets" on storage.objects;
+create policy "Public read store assets"
+  on storage.objects for select
+  using (bucket_id = 'store-assets');
